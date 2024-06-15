@@ -13,6 +13,8 @@ from flask import Flask, render_template, request, jsonify
 import grpc
 
 from dotenv import load_dotenv
+from security import safe_requests
+
 load_dotenv()
 
 from accounts_pb2 import *
@@ -663,8 +665,7 @@ def profile_user():
     )
 
     if request.method == "GET":
-        user_data = flask_client_requests.get(
-            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
+        user_data = safe_requests.get(f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
         ).json()
         logging.debug(
             f"=========================> response from {customer_auth_host}:8000/api/users/profile: {user_data}"
@@ -709,8 +710,7 @@ def get_specific_atm(id):
         f"=========================> forwarding to {atm_locator_host}:8001/api/atm/{id}"
     )
 
-    atm_data = flask_client_requests.get(
-        f"http://{atm_locator_host}:8001/api/atm/{id}"
+    atm_data = safe_requests.get(f"http://{atm_locator_host}:8001/api/atm/{id}"
     ).json()
     logging.debug(
         f"=========================> response from {atm_locator_host}:8001/api/atm/{id}: {atm_data}"
