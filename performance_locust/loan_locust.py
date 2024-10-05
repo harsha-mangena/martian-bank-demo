@@ -4,8 +4,8 @@
 
 from locust import HttpUser, task, SequentialTaskSet, between
 from api_urls import ApiUrls
-import random
 from faker import Faker
+import secrets
 
 fake = Faker()
 
@@ -23,11 +23,9 @@ class MyUser(HttpUser):
             self.user_data = {
                 "name": fake.unique.name(),
                 "email_id": fake.unique.email(),
-                "account_type": random.choice(
-                    ["Checking", "Savings", "Money Market", "Investment"]
+                "account_type": secrets.choice(["Checking", "Savings", "Money Market", "Investment"]
                 ),
-                "government_id_type": random.choice(
-                    ["Driver's License", "Passport", "SSN"]
+                "government_id_type": secrets.choice(["Driver's License", "Passport", "SSN"]
                 ),
                 "govt_id_number": fake.unique.ssn(),
                 "address": fake.unique.address(),
@@ -53,11 +51,10 @@ class MyUser(HttpUser):
             self.user_data["email"] = self.user_data["email_id"]
             self.user_data["govt_id_type"] = self.user_data["government_id_type"]
             self.user_data["account_number"] = self.account_number
-            self.user_data["interest_rate"] = random.randint(1, 10)
-            self.user_data["time_period"] = random.randint(1, 10)
-            self.user_data["loan_amount"] = random.randint(1000, 10000)
-            self.user_data["loan_type"] = random.choice(
-                ["Base Camp", "Rover", "Potato Farming", "Ice Home", "Rocker"]
+            self.user_data["interest_rate"] = secrets.SystemRandom().randint(1, 10)
+            self.user_data["time_period"] = secrets.SystemRandom().randint(1, 10)
+            self.user_data["loan_amount"] = secrets.SystemRandom().randint(1000, 10000)
+            self.user_data["loan_type"] = secrets.choice(["Base Camp", "Rover", "Potato Farming", "Ice Home", "Rocker"]
             )
             self.client.post(
                 "/",
