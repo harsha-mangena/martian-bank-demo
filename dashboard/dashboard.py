@@ -116,8 +116,8 @@ def create_account():
 
     def __flask():
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/create-account", json=request.form
-        )
+            f"http://{host_ip_port}/create-account", json=request.form, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -174,8 +174,8 @@ def get_all_accounts():
 
     def __flask():
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/get-all-accounts", json=request.form
-        )
+            f"http://{host_ip_port}/get-all-accounts", json=request.form, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -219,8 +219,8 @@ def get_account_details():
 
     def __flask():
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/account-detail", json=request.form
-        )
+            f"http://{host_ip_port}/account-detail", json=request.form, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -273,8 +273,8 @@ def transaction_form():
 
     def __flask():
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/transfer", json=request.form
-        )
+            f"http://{host_ip_port}/transfer", json=request.form, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -330,7 +330,7 @@ def transaction_zelle():
             "amount": float(request.form["amount"]),
             "reason": request.form["reason"],
         }
-        response = flask_client_requests.post(f"http://{host_ip_port}/zelle", json=req)
+        response = flask_client_requests.post(f"http://{host_ip_port}/zelle", json=req, timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -377,8 +377,8 @@ def get_all_transactions():
     def __flask():
         req = {"account_number": request.form["account_number"]}
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/transaction-history", json=req
-        )
+            f"http://{host_ip_port}/transaction-history", json=req, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -419,8 +419,8 @@ def GetTransactionByID():
     def __flask():
         req = {"transaction_id": request.form["transaction_id"]}
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/transaction-with-id", json=req
-        )
+            f"http://{host_ip_port}/transaction-with-id", json=req, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
 
@@ -508,8 +508,8 @@ def loan_form():
 
         logging.debug(f"........==============>  http://{host_ip_port}/loan/request")
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/loan/request", json=loan_request
-        )
+            f"http://{host_ip_port}/loan/request", json=loan_request, 
+        timeout=60)
         return response.json()
 
     loan_host = os.getenv("LOAN_HOST", "localhost")
@@ -566,8 +566,8 @@ def loan_history():
             f'=========================> this is  {f"{host_ip_port}/loan/history"}'
         )
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/loan/history", json=req
-        )
+            f"http://{host_ip_port}/loan/history", json=req, 
+        timeout=60)
         logging.debug(f"====================== {response.json()}")
         return response.json()
 
@@ -606,8 +606,8 @@ def register_user():
     )
 
     user_data = flask_client_requests.post(
-        f"http://{customer_auth_host}:8000/api/users", json=request.json
-    ).json()
+        f"http://{customer_auth_host}:8000/api/users", json=request.json, 
+    timeout=60).json()
     logging.debug(
         f"=========================> response from {customer_auth_host}:8000/api/users: {user_data}"
     )
@@ -625,8 +625,8 @@ def login_user():
     )
 
     user_data = flask_client_requests.post(
-        f"http://{customer_auth_host}:8000/api/users/auth", json=request.json
-    ).json()
+        f"http://{customer_auth_host}:8000/api/users/auth", json=request.json, 
+    timeout=60).json()
     logging.debug(
         f"=========================> response from {customer_auth_host}:8000/api/users/auth: {user_data}"
     )
@@ -644,8 +644,8 @@ def logout_user():
     )
 
     user_data = flask_client_requests.post(
-        f"http://{customer_auth_host}:8000/api/users/logout", json=request.json
-    ).json()
+        f"http://{customer_auth_host}:8000/api/users/logout", json=request.json, 
+    timeout=60).json()
     logging.debug(
         f"=========================> response from {customer_auth_host}:8000/api/users/logout: {user_data}"
     )
@@ -664,16 +664,16 @@ def profile_user():
 
     if request.method == "GET":
         user_data = flask_client_requests.get(
-            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
-        ).json()
+            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json, 
+        timeout=60).json()
         logging.debug(
             f"=========================> response from {customer_auth_host}:8000/api/users/profile: {user_data}"
         )
 
     if request.method == "PUT":
         user_data = flask_client_requests.put(
-            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
-        ).json()
+            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json, 
+        timeout=60).json()
         logging.debug(
             f"=========================> response from {customer_auth_host}:8000/api/users/profile: {user_data}"
         )
@@ -691,8 +691,8 @@ def get_atms():
     )
 
     atm_data = flask_client_requests.post(
-        f"http://{atm_locator_host}:8001/api/atm", json=request.json
-    ).json()
+        f"http://{atm_locator_host}:8001/api/atm", json=request.json, 
+    timeout=60).json()
     logging.debug(
         f"=========================> response from {atm_locator_host}:8001/api/atm: {atm_data}"
     )
@@ -710,8 +710,8 @@ def get_specific_atm(id):
     )
 
     atm_data = flask_client_requests.get(
-        f"http://{atm_locator_host}:8001/api/atm/{id}"
-    ).json()
+        f"http://{atm_locator_host}:8001/api/atm/{id}", 
+    timeout=60).json()
     logging.debug(
         f"=========================> response from {atm_locator_host}:8001/api/atm/{id}: {atm_data}"
     )
