@@ -3,7 +3,6 @@
 # license that can be found in the LICENSE file.
 
 from concurrent import futures
-import random
 import datetime
 import os
 import grpc
@@ -13,6 +12,8 @@ import logging
 from dotmap import DotMap
 from pymongo.mongo_client import MongoClient
 from flask import Flask, request, jsonify
+import secrets
+
 # set logging to debug
 logging.basicConfig(level=logging.DEBUG)
 
@@ -84,7 +85,7 @@ class AccountsGeneric:
         # assign a random 16 digit account number
         account[
             "account_number"
-        ] = f"IBAN{random.randint(1000000000000000, 9999999999999999)}"
+        ] = f"IBAN{secrets.SystemRandom().randint(1000000000000000, 9999999999999999)}"
         # timestamp  the account creation
         account["created_at"] = datetime.datetime.now()
         # insert the account into the list of accounts
