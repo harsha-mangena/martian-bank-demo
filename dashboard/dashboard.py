@@ -716,7 +716,7 @@ def get_specific_atm(id):
         f"=========================> response from {atm_locator_host}:8001/api/atm/{id}: {atm_data}"
     )
 
-    return json.dumps(atm_data)
+    return (json.dumps(atm_data), {'Content-Type': 'application/json'})
 
 
 if __name__ == "__main__":
