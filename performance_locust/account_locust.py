@@ -4,8 +4,8 @@
 
 from locust import HttpUser, task, SequentialTaskSet, between
 from api_urls import ApiUrls
-import random
 from faker import Faker
+import secrets
 
 fake = Faker()
 
@@ -22,11 +22,9 @@ class MyUser(HttpUser):
             self.user_data = {
                 "name": fake.unique.name(),
                 "email_id": fake.unique.email(),
-                "account_type": random.choice(
-                    ["Checking", "Savings", "Money Market", "Investment"]
+                "account_type": secrets.choice(["Checking", "Savings", "Money Market", "Investment"]
                 ),
-                "government_id_type": random.choice(
-                    ["Driver's License", "Passport", "SSN"]
+                "government_id_type": secrets.choice(["Driver's License", "Passport", "SSN"]
                 ),
                 "govt_id_number": fake.unique.ssn(),
                 "address": fake.unique.address(),
